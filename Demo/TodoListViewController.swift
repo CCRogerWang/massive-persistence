@@ -15,7 +15,7 @@ class TodoListViewController: UITableViewController {
     
     var persistentContainer: NSPersistentContainer?
     
-    var fetchResultsController: NSFetchedResultsController<Todo>?
+    var todos: [Todo] = []
     
     override func viewDidLoad() {
 
@@ -114,14 +114,10 @@ class TodoListViewController: UITableViewController {
         let addAction = UIAlertAction(
             title: "Add",
             style: .default,
-            handler: { [weak self] _ in
-
-                guard
-                    let weakSelf = self
-                else { return }
+            handler: { _ in
                 
                 guard
-                    let container = weakSelf.persistentContainer
+                    let container = self.persistentContainer
                 else { fatalError("Must set a persistent container.") }
                 
                 guard
@@ -129,7 +125,7 @@ class TodoListViewController: UITableViewController {
                     !title.isEmpty
                 else {
                     
-                    weakSelf.showAlert(message: "Please enter the title.")
+                    self.showAlert(message: "Please enter the title.")
                     
                     return
                         
@@ -170,26 +166,21 @@ class TodoListViewController: UITableViewController {
                                     )
                                 ]
                                 
-                                weakSelf.fetchResultsController = NSFetchedResultsController(
-                                    fetchRequest: fetchRequest,
-                                    managedObjectContext: container.viewContext,
-                                    sectionNameKeyPath: nil,
-                                    cacheName: nil
-                                )
-                                
                                 do {
                                     
-                                    try weakSelf.fetchResultsController?.performFetch()
+                                    let todos = try container.viewContext.fetch(fetchRequest)
                                     
-                                    weakSelf.tableView.reloadData()
+                                    self.todos = todos
+                                    
+                                    self.tableView.reloadData()
                                     
                                 }
-                                catch { weakSelf.showAlert(message: error.localizedDescription) }
+                                catch { self.showAlert(message: error.localizedDescription) }
                                 
                             }
                             
                         }
-                        catch { weakSelf.showAlert(message: error.localizedDescription) }
+                        catch { self.showAlert(message: error.localizedDescription) }
                         
                     }
                     
@@ -214,13 +205,7 @@ class TodoListViewController: UITableViewController {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     )
-    -> Int {
-        
-        let sectionInfo = fetchResultsController?.sections?[section]
-        
-        return sectionInfo?.numberOfObjects ?? 0
-        
-    }
+    -> Int { return todos.count }
     
     override func tableView(
         _ tableView: UITableView,
@@ -233,11 +218,9 @@ class TodoListViewController: UITableViewController {
             reuseIdentifier: nil
         )
         
-        if let todo = fetchResultsController?.object(at: indexPath) {
+        let todo = todos[indexPath.row]
         
-            cell.textLabel?.text = todo.title
-            
-        }
+        cell.textLabel?.text = todo.title
         
         return cell
         
