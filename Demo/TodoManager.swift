@@ -28,7 +28,7 @@ class TodoManager: TodoProvider {
         
         container.persistentStoreDescriptions = [ description ]
         
-        container.loadPersistentStores { [weak self] description, error in
+        container.loadPersistentStores { description, error in
             
             if let error = error {
                 
@@ -46,7 +46,7 @@ class TodoManager: TodoProvider {
                 .success(value: result)
             )
             
-            self?.persistentContainer = container
+            self.persistentContainer = container
             
         }
         

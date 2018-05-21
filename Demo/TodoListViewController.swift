@@ -31,13 +31,13 @@ class TodoListViewController: UITableViewController {
         
         navigationItem.rightBarButtonItem = addBarButtonItem
         
-        todoProvider?.loadStore(name: "Main") { [weak self] result in
+        todoProvider?.loadStore(name: "Main") { result in
         
             switch result {
                 
             case .success: addBarButtonItem.isEnabled = true
 
-            case let .failure(error): self?.showAlert(message: error.localizedDescription)
+            case let .failure(error): self.showAlert(message: error.localizedDescription)
                 
             }
         
@@ -101,46 +101,42 @@ class TodoListViewController: UITableViewController {
         let addAction = UIAlertAction(
             title: "Add",
             style: .default,
-            handler: { [weak self] _ in
-
-                guard
-                    let weakSelf = self
-                else { return }
+            handler: { _ in
                 
                 guard
                     let title = titleTextField?.text,
                     !title.isEmpty
                 else {
                     
-                    weakSelf.showAlert(message: "Please enter the title.")
+                    self.showAlert(message: "Please enter the title.")
                     
                     return
                         
                 }
                 
-                weakSelf.todoProvider?.createTodo(title: title) { result in
+                self.todoProvider?.createTodo(title: title) { result in
                     
                     switch result {
                         
                     case .success:
                         
-                        weakSelf.todoProvider?.readTodos { result in
+                        self.todoProvider?.readTodos { result in
                             
                             switch result {
                                 
                             case let .success(todos):
                                 
-                                weakSelf.todos = todos
+                                self.todos = todos
                                 
-                                weakSelf.tableView.reloadData()
+                                self.tableView.reloadData()
                                 
-                            case let .failure(error): weakSelf.showAlert(message: error.localizedDescription)
+                            case let .failure(error): self.showAlert(message: error.localizedDescription)
                         
                             }
                             
                         }
                         
-                    case let .failure(error): weakSelf.showAlert(message: error.localizedDescription)
+                    case let .failure(error): self.showAlert(message: error.localizedDescription)
                         
                     }
                     
