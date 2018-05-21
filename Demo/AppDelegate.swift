@@ -27,9 +27,12 @@ extension AppDelegate: UIApplicationDelegate {
     )
     -> Bool {
         
-        window.rootViewController = UINavigationController(
-            rootViewController: TodoListViewController()
-        )
+        let todoListViewController = TodoListViewController()
+        
+        // Dependency injection.
+        todoListViewController.todoProvider = TodoManager()
+        
+        window.rootViewController = UINavigationController(rootViewController: todoListViewController)
         
         window.makeKeyAndVisible()
         
