@@ -11,13 +11,13 @@
 import UIKit
 
 @UIApplicationMain
-public final class AppDelegate: UIResponder {
+class AppDelegate: UIResponder {
     
-    public final let window = UIWindow(frame: UIScreen.main.bounds)
+    let window = UIWindow(frame: UIScreen.main.bounds)
     
 }
 
-// MARK: UIApplicationDelegate
+// MARK: - UIApplicationDelegate
 
 extension AppDelegate: UIApplicationDelegate {
     
@@ -28,7 +28,7 @@ extension AppDelegate: UIApplicationDelegate {
     -> Bool {
         
         window.rootViewController = UINavigationController(
-            rootViewController: ViewController()
+            rootViewController: TodoListViewController()
         )
         
         window.makeKeyAndVisible()
