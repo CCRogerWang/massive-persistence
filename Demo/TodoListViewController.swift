@@ -126,7 +126,7 @@ class TodoListViewController: UITableViewController {
                             case let .success(todos):
                                 
                                 self.todos = todos
-                                
+                           
                                 self.tableView.reloadData()
                                 
                             case let .failure(error): self.showAlert(message: error.localizedDescription)
@@ -136,7 +136,7 @@ class TodoListViewController: UITableViewController {
                         }
                         
                     case let .failure(error): self.showAlert(message: error.localizedDescription)
-                        
+                    
                     }
                     
                 }
