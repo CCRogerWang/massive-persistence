@@ -8,7 +8,6 @@
 
 // MARK: - TodoListViewController
 
-import CoreData
 import UIKit
 
 class TodoListViewController: UITableViewController {
