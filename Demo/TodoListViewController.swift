@@ -15,7 +15,7 @@ class TodoListViewController: UITableViewController {
     
     var persistentContainer: NSPersistentContainer?
     
-    var todos: [Todo] = []
+    var todos: [TodoEntity] = []
     
     override func viewDidLoad() {
 
@@ -142,7 +142,7 @@ class TodoListViewController: UITableViewController {
                     
                     backgroundContext.perform {
                         
-                        let todo = Todo(
+                        let todo = TodoEntity(
                             entity: description,
                             insertInto: backgroundContext
                         )
@@ -157,7 +157,7 @@ class TodoListViewController: UITableViewController {
                             
                             container.viewContext.perform {
                                 
-                                let fetchRequest: NSFetchRequest<Todo> = Todo.fetchRequest()
+                                let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
                                 
                                 fetchRequest.sortDescriptors = [
                                     NSSortDescriptor(
