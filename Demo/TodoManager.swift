@@ -12,6 +12,14 @@ import CoreData
 class TodoManager {
     private var persistenContainer: NSPersistentContainer?
     
+    enum CreateTodoError: Error {
+        case noStore
+    }
+    
+    enum ReadTodosError: Error {
+        case noStore
+    }
+    
     /// load store
     /// - Parameters:
     ///   - name: String
@@ -35,14 +43,66 @@ class TodoManager {
     
     /// Create a todo
     /// - Parameters:
-    ///   - title: <#title description#>
-    ///   - completionHandler: <#completionHandler description#>
+    ///   - title: String
+    ///   - completionHandler: @escaping (Result<Todo>) -> Void
     func createTodo(title: String, completionHandler: @escaping (Result<Todo>) -> Void) {
+        guard let container = persistenContainer else {
+            let error: CreateTodoError = .noStore
+            completionHandler(.failure(error: error))
+            return
+        }
         
+        container.performBackgroundTask { backgroundContext in
+            
+            guard let description = NSEntityDescription.entity(forEntityName: "Todo",in: backgroundContext) else { fatalError("CANNOT find the entity description for Todo.")
+            }
+            
+            backgroundContext.perform {
+                
+                let todoEntity = TodoEntity(entity: description, insertInto: backgroundContext)
+                todoEntity.title = title
+                todoEntity.createdAtDate = Date()
+                
+                do {
+                    try backgroundContext.save()
+                    let todo = try Todo.init(entity: todoEntity)
+                    completionHandler(.success(value: todo))
+                } catch {
+                    completionHandler(.failure(error: error))
+                }
+                
+                
+            }
+            
+        }
     }
     
     /// Read todos.
     /// - Parameter completionHandler: <#completionHandler description#>
     func readTodos(completionHandler: @escaping (Result<[Todo]>) -> Void) {
+        guard let container = persistenContainer else {
+            let error: ReadTodosError = .noStore
+            completionHandler(.failure(error: error))
+            return
+        }
+        
+        container.viewContext.perform {
+            let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+            
+            fetchRequest.sortDescriptors = [
+                NSSortDescriptor(
+                    key: "createdAtDate",
+                    ascending: false
+                )
+            ]
+            
+            do {
+                let todoEntities = try container.viewContext.fetch(fetchRequest)
+                let todos = try todoEntities.map(Todo.init)
+                completionHandler(.success(value: todos))
+            } catch {
+                completionHandler(.failure(error: error))
+            }
+        }
     }
 }
