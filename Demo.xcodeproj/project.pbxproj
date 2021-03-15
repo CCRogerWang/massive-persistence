@@ -16,6 +16,7 @@
 		DBC8572B25FFA06200094EAA /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC8572A25FFA06200094EAA /* Result.swift */; };
 		DBC8572E25FFA0C700094EAA /* TodoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC8572D25FFA0C700094EAA /* TodoManager.swift */; };
 		DBC8573125FFA3E500094EAA /* EntityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC8573025FFA3E500094EAA /* EntityError.swift */; };
+		DBC8573425FFAB1500094EAA /* TodoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC8573325FFAB1500094EAA /* TodoProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		DBC8572A25FFA06200094EAA /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		DBC8572D25FFA0C700094EAA /* TodoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoManager.swift; sourceTree = "<group>"; };
 		DBC8573025FFA3E500094EAA /* EntityError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityError.swift; sourceTree = "<group>"; };
+		DBC8573325FFAB1500094EAA /* TodoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,16 +66,25 @@
 			children = (
 				B05D9BA220B26B3D00EC4C25 /* AppDelegate.swift */,
 				B05D9BA420B26B3D00EC4C25 /* TodoListViewController.swift */,
-				DBC8572725FFA04200094EAA /* Todo.swift */,
-				DBC8572A25FFA06200094EAA /* Result.swift */,
+				DBC8573625FFAED400094EAA /* Entity */,
 				DBC8572D25FFA0C700094EAA /* TodoManager.swift */,
-				DBC8573025FFA3E500094EAA /* EntityError.swift */,
+				DBC8573325FFAB1500094EAA /* TodoProvider.swift */,
 				B05D9BB120B2731C00EC4C25 /* Main.xcdatamodeld */,
 				B05D9BA620B26B3D00EC4C25 /* Assets.xcassets */,
 				B05D9BA820B26B3D00EC4C25 /* LaunchScreen.storyboard */,
 				B05D9BAB20B26B3D00EC4C25 /* Info.plist */,
 			);
 			path = Demo;
+			sourceTree = "<group>";
+		};
+		DBC8573625FFAED400094EAA /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				DBC8572725FFA04200094EAA /* Todo.swift */,
+				DBC8572A25FFA06200094EAA /* Result.swift */,
+				DBC8573025FFA3E500094EAA /* EntityError.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +163,7 @@
 				B05D9BA520B26B3D00EC4C25 /* TodoListViewController.swift in Sources */,
 				B05D9BA320B26B3D00EC4C25 /* AppDelegate.swift in Sources */,
 				DBC8573125FFA3E500094EAA /* EntityError.swift in Sources */,
+				DBC8573425FFAB1500094EAA /* TodoProvider.swift in Sources */,
 				DBC8572825FFA04200094EAA /* Todo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

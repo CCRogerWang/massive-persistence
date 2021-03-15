@@ -21,16 +21,14 @@ class AppDelegate: UIResponder {
 
 extension AppDelegate: UIApplicationDelegate {
     
-    public final func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
-    )
-    -> Bool {
+    public final func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        window.rootViewController = UINavigationController(
-            rootViewController: TodoListViewController()
-        )
+        let todoListViewController = TodoListViewController()
         
+        // DIJ
+        todoListViewController.todoProvider = TodoManager()
+        
+        window.rootViewController = UINavigationController(rootViewController: todoListViewController)
         window.makeKeyAndVisible()
         
         return true

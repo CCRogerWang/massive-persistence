@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class TodoManager {
+class TodoManager: TodoProvider {
     private var persistenContainer: NSPersistentContainer?
     
     enum CreateTodoError: Error {

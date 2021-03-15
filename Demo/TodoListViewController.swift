@@ -15,10 +15,12 @@ class TodoListViewController: UITableViewController {
     
     var persistentContainer: NSPersistentContainer?
     
-    var todos: [TodoEntity] = []
+    var todos: [Todo] = []
+    
+    var todoProvider: TodoProvider?
     
     override func viewDidLoad() {
-
+        
         super.viewDidLoad()
         
         let addBarButtonItem = UIBarButtonItem(
@@ -31,31 +33,16 @@ class TodoListViewController: UITableViewController {
         
         navigationItem.rightBarButtonItem = addBarButtonItem
         
-        let container = NSPersistentContainer(name: "Main")
-        
-        let description = NSPersistentStoreDescription()
-        
-        // Development only.
-        description.type = NSInMemoryStoreType
-        
-        container.persistentStoreDescriptions = [ description ]
-        
-        container.loadPersistentStores { description, error in
+        todoProvider?.loadStore(name: "Main", completionHandler: { [weak self] (result) in
+            switch result {
             
-            if let error = error {
-                
-                self.showAlert(message: error.localizedDescription)
-                
-                return
-                
+            case .success(value: _):
+                addBarButtonItem.isEnabled = true
+            case .failure(error: let error):
+                self?.showAlert(message: error.localizedDescription)
             }
-            
-            addBarButtonItem.isEnabled = true
+        })
         
-        }
-        
-        persistentContainer = container
-
     }
     
     func showAlert(message: String) {
@@ -114,77 +101,40 @@ class TodoListViewController: UITableViewController {
         let addAction = UIAlertAction(
             title: "Add",
             style: .default,
-            handler: { _ in
+            handler: { [weak self] _ in
                 
-                guard
-                    let container = self.persistentContainer
-                else { fatalError("Must set a persistent container.") }
                 
                 guard
                     let title = titleTextField?.text,
                     !title.isEmpty
                 else {
                     
-                    self.showAlert(message: "Please enter the title.")
+                    self?.showAlert(message: "Please enter the title.")
                     
                     return
-                        
+                    
                 }
-
-                container.performBackgroundTask { backgroundContext in
+                
+                self?.todoProvider?.createTodo(title: title, completionHandler: { (result) in
+                    switch result {
                     
-                    guard
-                        let description = NSEntityDescription.entity(
-                            forEntityName: "Todo",
-                            in: backgroundContext
-                        )
-                    else { fatalError("CANNOT find the entity description for Todo.") }
-                    
-                    backgroundContext.perform {
-                        
-                        let todo = TodoEntity(
-                            entity: description,
-                            insertInto: backgroundContext
-                        )
-                        
-                        todo.title = title
-                        
-                        todo.createdAtDate = Date()
-                        
-                        do {
+                    case .success:
+                        self?.todoProvider?.readTodos(completionHandler: { (result) in
+                            switch result {
                             
-                            try backgroundContext.save()
-                            
-                            container.viewContext.perform {
-                                
-                                let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
-                                
-                                fetchRequest.sortDescriptors = [
-                                    NSSortDescriptor(
-                                        key: "createdAtDate",
-                                        ascending: false
-                                    )
-                                ]
-                                
-                                do {
-                                    
-                                    let todos = try container.viewContext.fetch(fetchRequest)
-                                    
-                                    self.todos = todos
-                                    
-                                    self.tableView.reloadData()
-                                    
+                            case .success(value: let todos):
+                                self?.todos = todos
+                                DispatchQueue.main.async {
+                                    self?.tableView.reloadData()
                                 }
-                                catch { self.showAlert(message: error.localizedDescription) }
-                                
+                            case .failure(error: let error):
+                                self?.showAlert(message: error.localizedDescription)
                             }
-                            
-                        }
-                        catch { self.showAlert(message: error.localizedDescription) }
-                        
+                        })
+                    case .failure(error: let error):
+                        self?.showAlert(message: error.localizedDescription)
                     }
-                    
-                }
+                })
                 
             }
         )
@@ -198,7 +148,7 @@ class TodoListViewController: UITableViewController {
         )
         
     }
- 
+    
     // MARK: UITableViewDataSource
     
     override func tableView(
