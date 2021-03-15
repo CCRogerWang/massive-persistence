@@ -14,6 +14,8 @@
 		B05D9BB320B2731C00EC4C25 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B05D9BB120B2731C00EC4C25 /* Main.xcdatamodeld */; };
 		DBC8572825FFA04200094EAA /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC8572725FFA04200094EAA /* Todo.swift */; };
 		DBC8572B25FFA06200094EAA /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC8572A25FFA06200094EAA /* Result.swift */; };
+		DBC8572E25FFA0C700094EAA /* TodoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC8572D25FFA0C700094EAA /* TodoManager.swift */; };
+		DBC8573125FFA3E500094EAA /* EntityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC8573025FFA3E500094EAA /* EntityError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		B05D9BB220B2731C00EC4C25 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
 		DBC8572725FFA04200094EAA /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		DBC8572A25FFA06200094EAA /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		DBC8572D25FFA0C700094EAA /* TodoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoManager.swift; sourceTree = "<group>"; };
+		DBC8573025FFA3E500094EAA /* EntityError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,8 @@
 				B05D9BA420B26B3D00EC4C25 /* TodoListViewController.swift */,
 				DBC8572725FFA04200094EAA /* Todo.swift */,
 				DBC8572A25FFA06200094EAA /* Result.swift */,
+				DBC8572D25FFA0C700094EAA /* TodoManager.swift */,
+				DBC8573025FFA3E500094EAA /* EntityError.swift */,
 				B05D9BB120B2731C00EC4C25 /* Main.xcdatamodeld */,
 				B05D9BA620B26B3D00EC4C25 /* Assets.xcassets */,
 				B05D9BA820B26B3D00EC4C25 /* LaunchScreen.storyboard */,
@@ -141,9 +147,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B05D9BB320B2731C00EC4C25 /* Main.xcdatamodeld in Sources */,
+				DBC8572E25FFA0C700094EAA /* TodoManager.swift in Sources */,
 				DBC8572B25FFA06200094EAA /* Result.swift in Sources */,
 				B05D9BA520B26B3D00EC4C25 /* TodoListViewController.swift in Sources */,
 				B05D9BA320B26B3D00EC4C25 /* AppDelegate.swift in Sources */,
+				DBC8573125FFA3E500094EAA /* EntityError.swift in Sources */,
 				DBC8572825FFA04200094EAA /* Todo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
